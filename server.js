@@ -45,8 +45,6 @@ setInterval(async () => {
   const next = batchQueue.shift();
   const { ingestionId, batch } = next;
 
-  batch.status = 'triggered';
-
   await Promise.all(batch.ids.map(simulateProcessing));
   batch.status = 'completed';
 }, 5000);
@@ -82,7 +80,6 @@ app.post('/ingest', (req, res) => {
     });
   });
 
-  res.json({ ingestion_id: ingestionId });
 });
 
 app.get('/status/:ingestionId', (req, res) => {
